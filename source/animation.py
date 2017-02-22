@@ -2,7 +2,7 @@
 This module...
 """
 from matplotlib import pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib import animation
 from source.boids import Boids
 
 class Animation(object):
@@ -27,8 +27,11 @@ class Animation(object):
         self.scatter = axes.scatter(
             self.boids.properties["x_coordinate"],
             self.boids.properties["y_coordinate"])
-        FuncAnimation(figure, self.animate, frames=self.frames,
-                      interval=self.interval)
+        anim = animation.FuncAnimation(
+            figure,
+            self.animate,
+            frames=self.frames,
+            interval=self.interval)
         plt.show()
 
     def animate(self, frame):
