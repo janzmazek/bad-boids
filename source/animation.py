@@ -1,8 +1,14 @@
+"""
+This module...
+"""
 from matplotlib import pyplot as plt
-from matplotlib import animation
+from matplotlib.animation import FuncAnimation
 from source.boids import Boids
 
 class Animation(object):
+    """
+    This class...
+    """
     def __init__(self, config):
         self.x_axis = config['x_axis']
         self.y_axis = config['y_axis']
@@ -13,16 +19,22 @@ class Animation(object):
         self.plot()
 
     def plot(self):
-        figure=plt.figure()
-        axes=plt.axes(xlim=tuple(self.x_axis), ylim=tuple(self.y_axis))
-        self.scatter=axes.scatter(
+        """
+        This method...
+        """
+        figure = plt.figure()
+        axes = plt.axes(xlim=tuple(self.x_axis), ylim=tuple(self.y_axis))
+        self.scatter = axes.scatter(
             self.boids.properties["x_coordinate"],
             self.boids.properties["y_coordinate"])
-        anim = animation.FuncAnimation(
-            figure, self.animate, frames=self.frames, interval=self.interval)
+        FuncAnimation(figure, self.animate, frames=self.frames,
+                      interval=self.interval)
         plt.show()
 
     def animate(self, frame):
+        """
+        This method...
+        """
         self.boids.update()
         self.scatter.set_offsets(list(zip(
             self.boids.properties["x_coordinate"],
