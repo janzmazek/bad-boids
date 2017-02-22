@@ -1,7 +1,7 @@
 """
 This module...
 """
-import random
+from source.initialisation import Initialisation
 
 class Boids(object):
     """
@@ -10,26 +10,7 @@ class Boids(object):
     def __init__(self, config):
         self.config = config
         self.number_of_birds = self.config['number_of_birds']
-        self.properties = self.initialise()
-
-    def initialise(self):
-        """
-        This method...
-        """
-        x_coordinates_interval = self.config['x_coordinates_interval']
-        y_coordinates_interval = self.config['y_coordinates_interval']
-        x_velocities_interval = self.config['x_velocities_interval']
-        y_velocities_interval = self.config['y_velocities_interval']
-        # Starting  positions and velocities
-        x_coordinate = self.randomise(x_coordinates_interval)
-        y_coordinate = self.randomise(y_coordinates_interval)
-        x_velocity = self.randomise(x_velocities_interval)
-        y_velocity = self.randomise(y_velocities_interval)
-        return {
-            "x_coordinate": x_coordinate,
-            "y_coordinate": y_coordinate,
-            "x_velocity": x_velocity,
-            "y_velocity": y_velocity}
+        self.properties = Initialisation(config).get_properties()
 
     def update(self):
         """
@@ -61,12 +42,6 @@ class Boids(object):
             y_velocity = self.properties["y_velocity"][bird]
             self.properties["x_coordinate"][bird] += x_velocity
             self.properties["y_coordinate"][bird] += y_velocity
-
-    def randomise(self, interval):
-        """
-        This method...
-        """
-        return [random.uniform(*interval) for i in range(self.number_of_birds)]
 
     def distance(self, bird_1, bird_2):
         """
