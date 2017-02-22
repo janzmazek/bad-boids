@@ -1,12 +1,12 @@
-bird_number: 50
-x_interval: [-450.0, 50.0]
-y_interval: [300.0, 600.0]
-x_velocity_interval: [0.0, 10.0]
-y_velocity_interval: [-20.0, 20.0]
-attraction_coefficient: 0.01
-reflection_limit: 100
-speeding_limit: 10000
-speeding_coefficient: 0.125
+number_of_birds: 50
+x_coordinates_interval: [-450.0, 50.0]
+y_coordinates_interval: [300.0, 600.0]
+x_velocities_interval: [0.0, 10.0]
+y_velocities_interval: [-20.0, 20.0]
+alignment_constant: 0.01
+separation_limit: 100
+cohesion_limit: 10000
+cohesion_constant: 0.125
 x_axis: [-500, 1500]
 y_axis: [-500, 1500]
 frames: 200

@@ -3,48 +3,66 @@ import random
 class Boids(object):
     def __init__(self, config):
         self.config = config
-        self.bird_number = self.config['bird_number']
-        self.initialise()
+        self.number_of_birds = self.config['number_of_birds']
+        self.properties = self.initialise()
 
     def initialise(self):
-        x_interval = self.config['x_interval']
-        y_interval = self.config['y_interval']
-        x_velocity_interval = self.config['x_velocity_interval']
-        y_velocity_interval = self.config['y_velocity_interval']
+        x_coordinates_interval = self.config['x_coordinates_interval']
+        y_coordinates_interval = self.config['y_coordinates_interval']
+        x_velocities_interval = self.config['x_velocities_interval']
+        y_velocities_interval = self.config['y_velocities_interval']
         # Starting  positions and velocities
-        boids_x=[random.uniform(x_interval[0], x_interval[1]) for x in range(self.bird_number)]
-        boids_y=[random.uniform(y_interval[0], y_interval[1]) for x in range(self.bird_number)]
-        boid_x_velocities=[random.uniform(x_velocity_interval[0], x_velocity_interval[1]) for x in range(self.bird_number)]
-        boid_y_velocities=[random.uniform(y_velocity_interval[0],y_velocity_interval[1]) for x in range(self.bird_number)]
-        self.boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
+        x_coordinate=self.randomise(x_coordinates_interval)
+        y_coordinate=self.randomise(y_coordinates_interval)
+        x_velocity=self.randomise(x_velocities_interval)
+        y_velocity=self.randomise(y_velocities_interval)
+        return {
+            "x_coordinate": x_coordinate,
+            "y_coordinate": y_coordinate,
+            "x_velocity": x_velocity,
+            "y_velocity": y_velocity}
 
     def update(self):
-        attraction_coefficient = self.config['attraction_coefficient']
-        reflection_limit = self.config['reflection_limit']
-        speeding_limit = self.config['speeding_limit']
-        speeding_coefficient = self.config['speeding_coefficient']
+        alignment_constant = self.config['alignment_constant']/self.number_of_birds
+        separation_limit = self.config['separation_limit']
+        cohesion_limit = self.config['cohesion_limit']
+        cohesion_constant = self.config['cohesion_constant']/self.number_of_birds
+        birds = range(self.number_of_birds)
 
-        xs,ys,xvs,yvs=self.boids
         # Fly towards the middle
-        for i in range(self.bird_number):
-            for j in range(self.bird_number):
-                xvs[i]=xvs[i]+(xs[j]-xs[i])*attraction_coefficient/self.bird_number
-        for i in range(self.bird_number):
-            for j in range(self.bird_number):
-                yvs[i]=yvs[i]+(ys[j]-ys[i])*attraction_coefficient/self.bird_number
+        for bird_i in birds:
+            for bird_j in birds:
+                self.correct(bird_i, bird_j, alignment_constant)
         # Fly away from nearby boids
-        for i in range(self.bird_number):
-            for j in range(self.bird_number):
-                if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < reflection_limit:
-                    xvs[i]=xvs[i]+(xs[i]-xs[j])
-                    yvs[i]=yvs[i]+(ys[i]-ys[j])
+        for bird_i in birds:
+            for bird_j in birds:
+                if self.distance(bird_i, bird_j) < separation_limit:
+                    self.correct(bird_i, bird_j)
         # Try to match speed with nearby boids
-        for i in range(self.bird_number):
-            for j in range(self.bird_number):
-                if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < speeding_limit:
-                    xvs[i]=xvs[i]+(xvs[j]-xvs[i])*speeding_coefficient/self.bird_number
-                    yvs[i]=yvs[i]+(yvs[j]-yvs[i])*speeding_coefficient/self.bird_number
+        for bird_i in birds:
+            for bird_j in birds:
+                if self.distance(bird_i, bird_j) < cohesion_limit:
+                    self.correct(bird_i, bird_j, cohesion_constant)
         # Move according to velocities
-        for i in range(self.bird_number):
-            xs[i]=xs[i]+xvs[i]
-            ys[i]=ys[i]+yvs[i]
+        for bird in birds:
+            x_velocity = self.properties["x_velocity"][bird]
+            y_velocity = self.properties["y_velocity"][bird]
+            self.properties["x_coordinate"][bird] += x_velocity
+            self.properties["y_coordinate"][bird] += y_velocity
+
+    def randomise(self, interval):
+        return [random.uniform(*interval) for i in range(self.number_of_birds)]
+
+    def distance(self, bird_1, bird_2):
+        x = self.properties["x_coordinate"]
+        y = self.properties["y_coordinate"]
+        distance = (x[bird_1]-x[bird_2])**2 + (y[bird_1]-y[bird_2])**2
+        return distance
+
+    def correct(self, bird_1, bird_2, constant=1):
+        x = self.properties["x_coordinate"]
+        y = self.properties["y_coordinate"]
+        x_displacement = (x[bird_2] - x[bird_1])*constant
+        y_displacement = (y[bird_2] - y[bird_1])*constant
+        self.properties["x_velocity"][bird_1] += x_displacement
+        self.properties["y_velocity"][bird_1] += y_displacement
