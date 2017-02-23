@@ -9,5 +9,6 @@ setup(
       license = "MIT License",
       packages = find_packages(exclude=['*test']),
       scripts = ['scripts/bad-boids'],
+      data_files = [('/etc/bad-boids' ,['config.yaml'])],
       install_requires = ['argparse', 'matplotlib']
 )

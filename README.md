@@ -4,19 +4,18 @@ The second assignment for the Research Software Engineering with Python module a
 ## Installation
 The package can be installed using pip:
 ```bash
-pip install git+git://github.com/janzmazek/bad-boids.git
+sudo pip install git+git://github.com/janzmazek/bad-boids.git
 ```
 or if you want a local copy of the repository
 ```bash
 git clone https://github.com/janzmazek/bad-boids.git
 ```
 ```bash
-python setup.py install
+sudo python setup.py install
 ```
+Configuration file is installed to global system "/etc/bad-boids" directory.
 
 ## Usage
-The package can be run using command line with command bad-boids.
-
-Example:
+The package can be run using command line with command
 ```bash
-greengraph --from “Ljubljana” --to “London” --steps 50 --out “plot.png”
+bad-boids
