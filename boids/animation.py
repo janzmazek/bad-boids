@@ -1,13 +1,21 @@
 """
-This module...
+This module creates an animation of boids.
 """
 from matplotlib import pyplot as plt
 from matplotlib import animation
-from source.boids import Boids
+from boids.boids import Boids
 
 class Animation(object):
     """
-    This class...
+    This class creates an animation based on the inputs specified in the config
+    file.
+    Parameters
+    ----------
+    config: yaml file with specified:
+        - x_axis
+        - y_axis
+        - frames
+        - interval
     """
     def __init__(self, config):
         self.x_axis = config['x_axis']
@@ -20,7 +28,7 @@ class Animation(object):
 
     def plot(self):
         """
-        This method...
+        This method plots the graph of boids.
         """
         figure = plt.figure()
         axes = plt.axes(xlim=tuple(self.x_axis), ylim=tuple(self.y_axis))
@@ -36,7 +44,7 @@ class Animation(object):
 
     def animate(self, frame):
         """
-        This method...
+        This method updates the graph with the new coordinates of boids.
         """
         self.boids.update()
         self.scatter.set_offsets(list(zip(

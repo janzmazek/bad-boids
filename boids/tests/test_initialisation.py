@@ -1,5 +1,5 @@
 import unittest
-from source.initialisation import Initialisation
+from boids.initialisation import Initialisation
 
 class TestInitialisation(unittest.TestCase):
     config = {

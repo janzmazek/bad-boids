@@ -1,11 +1,19 @@
 """
-This module...
+This module creates boids object.
 """
-from source.initialisation import Initialisation
+from boids.initialisation import Initialisation
 
 class Boids(object):
     """
-    This class...
+    This class is a boids object.
+    INPUTS
+    ------
+    config: yaml file with specified:
+        - number_of_birds
+        - alignment_constant
+        - separation_limit
+        - cohesion_limit
+        -cohesion_constant
     """
     def __init__(self, config):
         self.config = config
@@ -14,7 +22,8 @@ class Boids(object):
 
     def update(self):
         """
-        This method...
+        This method updates boids to new positions and velocities according to
+        constants specified in the config file.
         """
         alignment_constant = self.config['alignment_constant']/self.number_of_birds
         separation_limit = self.config['separation_limit']
@@ -42,7 +51,15 @@ class Boids(object):
 
     def distance(self, bird_1, bird_2):
         """
-        This method...
+        This method calculates the squared distance between two points.
+        Parameters
+        ----------
+        bird_1: integer
+        bird_2: integer
+        Returns
+        -------
+        float
+            squared distance
         """
         x_coordinate = self.properties["x_coordinate"]
         y_coordinate = self.properties["y_coordinate"]
@@ -52,7 +69,12 @@ class Boids(object):
 
     def correct_velocities(self, bird_1, bird_2, constant=1):
         """
-        This method...
+        This method corrects the velocities according to constants specified in
+        the config file.
+        Parameters
+        ----------
+        bird_1: integer
+        bird_2: integer
         """
         x_coordinate = self.properties["x_coordinate"]
         y_coordinate = self.properties["y_coordinate"]
@@ -62,7 +84,13 @@ class Boids(object):
         self.properties["y_velocity"][bird_1] += y_displacement
 
     def correct_coordinates(self, bird):
-            x_velocity = self.properties["x_velocity"][bird]
-            y_velocity = self.properties["y_velocity"][bird]
-            self.properties["x_coordinate"][bird] += x_velocity
-            self.properties["y_coordinate"][bird] += y_velocity
+        """
+        This method corrects the coordinates according to velocities.
+        Parameters
+        ----------
+        bird: integer
+        """
+        x_velocity = self.properties["x_velocity"][bird]
+        y_velocity = self.properties["y_velocity"][bird]
+        self.properties["x_coordinate"][bird] += x_velocity
+        self.properties["y_coordinate"][bird] += y_velocity

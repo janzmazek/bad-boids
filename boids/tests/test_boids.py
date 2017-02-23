@@ -1,5 +1,5 @@
 import unittest
-from source.boids import Boids
+from boids.boids import Boids
 
 class TestBoids(unittest.TestCase):
     config = {
