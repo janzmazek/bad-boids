@@ -9,11 +9,12 @@ sudo pip install git+git://github.com/janzmazek/bad-boids.git
 or if you want a local copy of the repository
 ```bash
 git clone https://github.com/janzmazek/bad-boids.git
-```
-```bash
 sudo python setup.py install
 ```
-Configuration file is installed to global system "/etc/bad-boids" directory.
+Configuration file is installed to global system "/etc/bad-boids" directory. You can edit the config file by entering the command
+```bash
+sudo vi /etc/bad-boids/config.yaml
+```
 
 ## Usage
 The package can be run using command line with command
