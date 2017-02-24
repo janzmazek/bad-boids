@@ -10,5 +10,5 @@ setup(
       packages = find_packages(exclude=['*test']),
       scripts = ['scripts/bad-boids'],
       data_files = [('/etc/bad-boids' ,['config.yaml'])],
-      install_requires = ['argparse', 'matplotlib']
+      install_requires = ['matplotlib', 'pyyaml']
 )
